@@ -14,6 +14,7 @@ import javax.activation.FileDataSource;
 import javax.mail.MessagingException;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -420,7 +421,14 @@ public class MailSenderPanel extends JPanel implements Runnable, GetResult<MailS
 	@Override
 	public void startForResult(MailSenderPanel receiveClass, int callNumber) {
 		//アドレス文字列をこのクラスに設定するスタブ
-		new StringArray_ReturnalClass(receiveClass, callNumber);
+//		new StringArray_ReturnalClass(receiveClass, callNumber);
+
+		/* AddressBook.PaneAddressの継承クラスをフレームに追加 */
+		JFrame address = new JFrame();
+		address.setBounds(750, 100, 300, 500);
+		AddressSelectPanel addressList = new AddressSelectPanel();
+		address.add(addressList);
+		address.setVisible(true);
 	}
 
 
