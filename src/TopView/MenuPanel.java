@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 
 import net.miginfocom.swing.MigLayout;
+import senderView.MailSenderPanel;
 import AddressBook.PaneAddress;
 
 /** 画面上部のメニュー */
@@ -26,9 +27,10 @@ public class MenuPanel extends JPanel {
 	JLabel trush = new JLabel("ゴミ箱", new ImageIcon("data/menuIcon/trush.png"), JLabel.CENTER);
 	JLabel addressBook = new JLabel("アドレス帳", new ImageIcon("data/menuicon.png"), JLabel.CENTER);
 	JLabel option = new JLabel("設定", new ImageIcon("data/menuIcon/option.png"), JLabel.CENTER);
-	
+
 	// アイコンクリックで表示する各種JPanel
 	PaneAddress paneAddress;
+	MailSenderPanel newMailPanel;
 	/** デバッグ用 */
 	JPanel dummyFrame;
 
@@ -48,36 +50,41 @@ public class MenuPanel extends JPanel {
 		}
 
 	}
-	
+
 	class MenuIconsAction extends MouseAdapter {
-		
+
 		@Override
 		public void mouseEntered(MouseEvent e) {
-			
+
 			// マウスカーソルを手の形に変える
 			Cursor cursor = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR);
 			Component comp = (Component)e.getSource();
 			comp.setCursor(cursor);
-			
+
 			// マウスカーソルの変化だけでなく、アイコンに変化があれば、
 			// マウスが乗っかっているのがわかりやすくなりそうです。
-			
+
 			// アイコンに変化をつける（余裕あれば）
 		}
-		
+
 		public void mouseExited(MouseEvent e) {
 			// アイコンをもとに戻す（余裕あれば）
 		}
-		
+
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			
+
 			Component comp = e.getComponent();
-			
+
 			// いまいちスマートじゃない…
 			if(comp == newMail) {
 				// 新規作成
 				System.out.println("newMail!");
+
+				if(!TopView.showTab(newMailPanel)) {
+					newMailPanel = new MailSenderPanel();
+					TopView.addTab("新規作成", newMailPanel);
+				}
 			}
 			else if (comp == receiveBox) {
 				// 受信BOX
@@ -98,7 +105,7 @@ public class MenuPanel extends JPanel {
 			else if(comp == addressBook) {
 				// アドレス帳
 				System.out.println("addressBook!");
-				
+
 				if(!TopView.showTab(paneAddress)) {
 					paneAddress = new PaneAddress();
 					TopView.addTab("アドレス帳", paneAddress);
@@ -107,48 +114,48 @@ public class MenuPanel extends JPanel {
 			else if (comp == option) {
 				// 設定
 				System.out.println("option!");
-				
+
 				if(!TopView.showTab(dummyFrame)) {
 					dummyFrame = new DummyPanel();
 					TopView.addTab("ダミー", dummyFrame);
 				}
 			}
-				
+
 		}
 	}
 
-// ↓ 一応残しておきます。そのうち消します。
-	
-//	@Override
-//	public void actionPerformed(ActionEvent e) {
-//		String buttonEvent = e.getActionCommand();
-//		switch(buttonEvent){
-//		case "新規作成":
-//			System.out.println("newMail!!");
-//			break;
-//		case "ゴミ箱":
-//			System.out.println("trush!");
-//			break;
-//		case "未送信":
-//			System.out.println("notSend");
-//			break;
-//		case "アドレス帳":
-//			/*
-//			 * 複数タブが生成されるのを防止する
-//			 */
-//			if(frmAddress == null){
-//				frmAddress = new FrmAddress();
-//				TopView.topViewAddTab("アドレス帳", frmAddress);
-//			}
-//			break;
-//		case "設定":
-//			System.out.println("option!");
-//			break;
-//		case "フォルダ作成":
-//			System.out.println("newFolder!");
-//			break;
-//		}
-//
-//	}
+	// ↓ 一応残しておきます。そのうち消します。
+
+	// @Override
+	// public void actionPerformed(ActionEvent e) {
+	// String buttonEvent = e.getActionCommand();
+	// switch(buttonEvent){
+	// case "新規作成":
+	// System.out.println("newMail!!");
+	// break;
+	// case "ゴミ箱":
+	// System.out.println("trush!");
+	// break;
+	// case "未送信":
+	// System.out.println("notSend");
+	// break;
+	// case "アドレス帳":
+	// /*
+	// * 複数タブが生成されるのを防止する
+	// */
+	// if(frmAddress == null){
+	// frmAddress = new FrmAddress();
+	// TopView.topViewAddTab("アドレス帳", frmAddress);
+	// }
+	// break;
+	// case "設定":
+	// System.out.println("option!");
+	// break;
+	// case "フォルダ作成":
+	// System.out.println("newFolder!");
+	// break;
+	// }
+	//
+	// }
 
 }
