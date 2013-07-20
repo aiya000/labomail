@@ -9,7 +9,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.DefaultListModel;
@@ -23,9 +22,8 @@ import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import dbHelper.DbHelper;
-
 import net.miginfocom.swing.MigLayout;
+import dbHelper.DbHelper;
 
 //paneAddress ver0.8.5
 public class PaneAddress extends JPanel implements ActionListener,ListSelectionListener{
@@ -57,7 +55,7 @@ public class PaneAddress extends JPanel implements ActionListener,ListSelectionL
 	private JTextField memoField = new JTextField();
 	private JButton editButton = new JButton("編集");
 	private JButton addButton = new JButton("+");
-	private JList list = new JList(listModel);
+	protected JList list = new JList(listModel);
 
 
 	public PaneAddress() {
@@ -75,7 +73,7 @@ public class PaneAddress extends JPanel implements ActionListener,ListSelectionL
 		addButton.addActionListener(this);
 		add(addButton, "cell 1 0");
 
-		
+
 
 
 	}
@@ -83,7 +81,7 @@ public class PaneAddress extends JPanel implements ActionListener,ListSelectionL
 	void rightPanelAdding(){
 		/*
 		 * There is including of stab.
-		 * 
+		 *
 		 */
 		ImageIcon imI = new ImageIcon("data/debugFace.jpg");
 		imageLabel.setIcon(imI);
@@ -161,8 +159,8 @@ public class PaneAddress extends JPanel implements ActionListener,ListSelectionL
 
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
-		if (e.getValueIsAdjusting()){ 
-			System.out.println("list changed"); 
+		if (e.getValueIsAdjusting()){
+			System.out.println("list changed");
 			try {
 				Class.forName("org.sqlite.JDBC");
 				Connection conn = DriverManager.getConnection("jdbc:sqlite:labomailer.db");

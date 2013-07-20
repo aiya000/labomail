@@ -13,7 +13,7 @@ import net.miginfocom.swing.MigLayout;
 
 public class Inserter extends JFrame implements ActionListener {
 
-	private GetResult<Object> calledForm;
+	private GetResult calledForm;
 	private JList<String> firstSyntax;
 	private JList<String> secondSyntax;
 	private JList<String> thirdSyntax;
@@ -23,7 +23,7 @@ public class Inserter extends JFrame implements ActionListener {
 			{ "aaaする。", "bbbだった。", "cccかもしんない。" }
 	};
 
-	public Inserter(GetResult<Object> calledForm) {
+	public Inserter(GetResult calledForm) {
 		//結果の格納先を設定
 		this.calledForm = calledForm;
 

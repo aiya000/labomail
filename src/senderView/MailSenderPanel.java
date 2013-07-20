@@ -50,7 +50,7 @@ import net.miginfocom.swing.MigLayout;
 /************************************/
 
 
-public class MailSenderPanel extends JPanel implements Runnable, GetResult<MailSenderPanel>, MouseListener {
+public class MailSenderPanel extends JPanel implements Runnable, GetResult, MouseListener {
 
 	/************ メンバ変数 ************/
 
@@ -144,12 +144,11 @@ public class MailSenderPanel extends JPanel implements Runnable, GetResult<MailS
 			this.add(pnlCC, "span 12, grow");
 
 			//CC用(宛先用)アイコン設定
-			//			JLabel lblPlusCC = new JLabel("（ ＋ ）CC");
 			JLabel lblPlusCC = new JLabel(new ImageIcon("data/senderIcon/Plus.png"));
 			lblPlusCC.setName("addCC");
 			lblPlusCC.addMouseListener(this);
 			lblPlusCC.addMouseListener(new MouseOverListener());
-			this.add(lblPlusCC, "wrap");
+			this.add(lblPlusCC, "top, wrap");
 
 		}
 
@@ -161,6 +160,7 @@ public class MailSenderPanel extends JPanel implements Runnable, GetResult<MailS
 			JLabel label = new JLabel("　Bcc　　");
 			label.setFont(new Font("MS UI Gothic", Font.BOLD, 15));
 			this.add(label, "");
+
 			JTextArea txtBCC = new JTextArea();
 			txtBCC.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
 			bccList.add(txtBCC);
@@ -168,10 +168,11 @@ public class MailSenderPanel extends JPanel implements Runnable, GetResult<MailS
 			this.add(pnlBCC, "span 12, grow");
 
 			//BCC用「＋」アイコン設定
-			JLabel lblPlusBCC = new JLabel("（ ＋ ）BCC");
+			JLabel lblPlusBCC = new JLabel(new ImageIcon("data/senderIcon/Plus.png"));
 			lblPlusBCC.setName("addBCC");
 			lblPlusBCC.addMouseListener(this);
-			this.add(lblPlusBCC, "wrap");
+			lblPlusBCC.addMouseListener(new MouseOverListener());
+			this.add(lblPlusBCC, "top, wrap");
 
 
 			JLabel label_1 = new JLabel("　件名　　");
@@ -186,7 +187,6 @@ public class MailSenderPanel extends JPanel implements Runnable, GetResult<MailS
 		//添付したファイルを表示するパネル
 		pnlAttach = new JPanel();
 		pnlAttach.setLayout(new BoxLayout(pnlAttach, BoxLayout.Y_AXIS));
-//		this.add(pnlAttach, "span 10, grow, wrap");
 		this.add(pnlAttach, "cell 1 4 5 0, grow, wrap");
 
 		//プログレスバーの設置
@@ -244,11 +244,12 @@ public class MailSenderPanel extends JPanel implements Runnable, GetResult<MailS
 		switch (MyUtils.getName(e)){
 
 		case "addCC":
-			//結果を返してほしいメソッド
+			//結果を返してほしいメソッドをコールナンバー指定無しで呼び出し
 			startForResult(this, 0x1);
 			break;
 
 		case "addBCC":
+			//コールナンバー:0x2でsetResultへの結果を期待して呼び出し
 			startForResult(this, 0x2);
 			break;
 
@@ -419,14 +420,11 @@ public class MailSenderPanel extends JPanel implements Runnable, GetResult<MailS
 	/************ 画面の呼び出しと結果の受け取り ************/
 
 	@Override
-	public void startForResult(MailSenderPanel receiveClass, int callNumber) {
-		//アドレス文字列をこのクラスに設定するスタブ
-//		new StringArray_ReturnalClass(receiveClass, callNumber);
-
+	public void startForResult(GetResult receiveClass, int callNumber) {
 		/* AddressBook.PaneAddressの継承クラスをフレームに追加 */
 		JFrame address = new JFrame();
 		address.setBounds(750, 100, 300, 500);
-		AddressSelectPanel addressList = new AddressSelectPanel();
+		AddressSelectPanel addressList = new AddressSelectPanel( (GetResult)this, callNumber, address );
 		address.add(addressList);
 		address.setVisible(true);
 	}
@@ -442,6 +440,7 @@ public class MailSenderPanel extends JPanel implements Runnable, GetResult<MailS
 
 		//コールナンバーでの分岐
 		switch(callNumber){
+
 		case 0x1:
 			//配列にキャスト
 			String[] toCC = (String[])retValue;

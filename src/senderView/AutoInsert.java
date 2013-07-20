@@ -11,7 +11,7 @@ import javax.swing.text.Document;
 import javax.swing.text.JTextComponent;
 
 
-public class AutoInsert implements CaretListener, KeyListener, GetResult<Object>{
+public class AutoInsert implements CaretListener, KeyListener, GetResult {
 
 	/************ メンバ変数 ************/
 
@@ -53,7 +53,7 @@ public class AutoInsert implements CaretListener, KeyListener, GetResult<Object>
 	/**** 呼び出しと結果のコールバック ****/
 
 	@Override
-	public void startForResult(Object receiveClass, int callNumber) {
+	public void startForResult(GetResult receiveClass, int callNumber) {
 		Inserter insert = new Inserter(this);
 		insert.setSize(700, 300);
 		insert.setLocationRelativeTo(null);
